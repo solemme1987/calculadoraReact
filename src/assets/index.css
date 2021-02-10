@@ -1,0 +1,453 @@
+/* colores de la calculadora
+  
+  REFERENCIAS NEUMORFISMO:https://www.youtube.com/watch?v=dBlr5gYeGAc&ab_channel=LupitaCoding
+  
+  fondo container: #F4AA60
+  fondo-grid:#DCDCDE
+
+  ligth shadow:#FFFFFF (X:-9px, Y:-9px, blur:16px)
+  DARK SHADOW: #A3B1C6 (X:-9px, Y:-9px, blur:16px)
+  MAIN BACKGROUND AND ELEMENT COLOR:#E0E5EC
+
+*/
+
+:root {
+  --background: #E0E5EC;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: #F4AA60;
+  /* background-image: url('../img/bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  width: auto;
+  padding: 10px;
+  background: #DCDCDE;
+  border-radius: 20px;
+  text-align: center;
+  padding: 30px;
+  transition: 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.grid-container.dark .grid-header input[type="text"] {
+  color: #DCDCDE
+}
+
+input[type="text"] {
+  width: 100%;
+  height: 80px;
+  background-color: transparent;
+  border: none;
+  color: black;
+  font-size: 1.3rem;
+  text-align: right;
+  padding-right: 5px;
+  margin-bottom: 50px;
+  font-weight: 600;
+}
+
+
+/* me quita los controles que salen en el campo
+numnber en al gunos navegadores */
+
+input[type="text"]:focus {
+  outline: 0;
+}
+
+button {
+  width: 55px;
+  height: 45px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  box-shadow: 2px 2px 5px #999;
+  /* box-shadow: 5px 5px 16px rgba(163, 177, 198, 0.6), -5px -5px 16px rgba(255, 255, 255, 0.5); */
+  position: relative;
+  transition: 0.2s ease-in-out;
+  outline: 0;
+}
+
+button.ligth:active {
+  background-color: #F4AA60;
+  color: white;
+}
+
+button.dark:active {
+  background-color: #56B18E;
+  color: white;
+}
+
+
+/*------------------------------------------
+CLASES PARA EL BACKGROUND  DEL MODO OSCURO 
+Y DIURNO 
+-------------------------------------------*/
+
+.ligth {
+  color: black;
+  background-color: #DCDCDE;
+}
+
+.dark {
+  background-color: #030F31;
+}
+
+
+/*-----------------------------------------*/
+
+button.numero.dark,
+button.ope2.dark {
+  color: white;
+}
+
+button.numero:after,
+.ope2:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 7px 7px 16px #999;
+  border-radius: 10px;
+  opacity: 0.2;
+}
+
+.ligth button,
+.dark button:focus {
+  outline: 0;
+}
+
+.opera,
+.igual,
+.ope2 {
+  color: #56B18E
+}
+
+.alter {
+  color: #F4AA60;
+}
+
+.grid-item.grid-header,
+.grid-item.grid-header-resultado {
+  grid-column: 1/5;
+  width: 100%;
+  padding: 0;
+}
+
+.grid-header-footer {
+  border-bottom: 1px solid#ADB1BA;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  color: #56B18E;
+  position: relative;
+  grid-column: 1/5;
+  padding: 0 0 10px 0;
+}
+
+.grid-header-resultado {
+  text-align: end;
+  font-size: 1.3rem;
+  color: grey;
+}
+
+.grid-header-footer .header-icon {
+  color: #ADB1BA;
+  letter-spacing: 2px;
+}
+
+
+/* -------------------------------
+      PANEL HISTORIAL
+----------------------------------*/
+
+
+/* panel del historial de operaciones 
+este es el panel que contiene la lista y
+el boton del historial */
+
+.grid-container .panel_historial {
+  position: absolute;
+  width: 225px;
+  height: 322px;
+  top: 45%;
+  margin-left: -3px;
+  overflow: hidden;
+  transition: 0.2s ease-in-out;
+}
+
+
+/* Cuando preciono el boton de historial coloco la capa del panel 
+que se visualice sobro todas las demas. pense utilizar  display none y block
+pero el efecto creado se pierde */
+
+.grid-container .panel_historial.mostrar {
+  z-index: 10000;
+}
+
+
+/* doy forma y stilo a la lista del historial */
+
+.grid-container .panel_historial ul {
+  position: relative;
+  padding: 20px 10px;
+  left: -100%;
+  max-height: 265px;
+  min-height: 265px;
+  transition: 0.2s ease-in-out;
+  text-align: end;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.grid-container .panel_historial ul .historialVacio {
+  color: gray;
+  font-size: 5rem;
+  width: 100%;
+  display: flex;
+  text-align: center;
+  margin-top: 30px;
+  flex-direction: column;
+}
+
+.grid-container .panel_historial ul .historialVacio .vacioText {
+  color: gray;
+  font-size: 2rem;
+}
+
+
+/* .historialVacio.visible {
+  display: block;
+} */
+
+
+/* le coloco left en 0 para que aparezca */
+
+.grid-container .panel_historial ul.verHistorial {
+  left: 0;
+}
+
+.grid-container .panel_historial ul li {
+  border-bottom: 0.5px solid rgb(204, 200, 200);
+}
+
+
+/* Doy estilo a las etiquetas p que me muestran 
+la operacion y el resultado en el historial */
+
+.grid-container .panel_historial ul li p {
+  margin: 5px;
+  padding: 3px;
+  font-size: 1rem;
+  color: #9699a0;
+}
+
+
+/* Le doy color verde al resultado de la operacion 
+en el panel del historial*/
+
+.grid-container .panel_historial ul li p:nth-child(2) {
+  color: #56B18E;
+}
+
+
+/* aqui le doy estilos al div que contiene  e
+l boton para borrar el historial */
+
+.grid-container .panel_historial .box_btn_borrar_historial {
+  position: relative;
+  left: -100%;
+  width: 100%;
+  height: 55px;
+  transition: 0.2s ease-in-out;
+}
+
+
+/* le doy  left 0 cuando para que se muestre  
+de izquierda a derecha cuando le doy  clic en el boton que activa el historial
+la caja del boton la puse serparada de la lista para poder copiar 
+el efecto de la calculadora samnsung
+*/
+
+.grid-container .box_btn_borrar_historial.scroll {
+  left: 0;
+}
+
+
+/* Estilos al BOTON del historial */
+
+.grid-container .panel_historial .box_btn_borrar_historial .btn_borrar_historial {
+  width: 200px;
+  height: 35px;
+  color: white;
+  background: #56B18E;
+  margin-top: 10px;
+  border-radius: 20px;
+  text-transform: capitalize;
+  font-size: 1rem;
+}
+
+
+/* .grid-container .panel_historial .box_btn_borrar_historial .btn_borrar_historial:active, */
+
+.grid-container .panel_historial button.btn_borrar_historial:hover {
+  background-color: #357059;
+}
+
+.grid-container .panel_historial button.btn_borrar_historial:active {
+  font-size: 0.9rem;
+}
+
+
+/* AGREGANDO ESTILO AL SCROLL DEL PANEL DE LA LISTA  */
+
+.grid-container .panel_historial ul::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.grid-container .panel_historial ul::-webkit-scrollbar:vertical {
+  width: 2px;
+}
+
+.grid-container .panel_historial ul::-webkit-scrollbar-button:increment,
+.grid-container .panel_historial ul::-webkit-scrollbar-button {
+  display: none;
+}
+
+.grid-container .panel_historial ul::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+.grid-container .panel_historial ul::-webkit-scrollbar-thumb {
+  background-color: rgb(204, 200, 200);
+  border-radius: 20px;
+}
+
+.grid-container .panel_historial ul::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+
+/* -------------------------------
+     FIN  PANEL HISTORIAL
+----------------------------------*/
+
+
+/* -------------------------------
+    ERROR
+----------------------------------*/
+
+.error {
+  position: absolute;
+  background: #141518;
+  color: white;
+  padding: 8px 10px;
+  width: 17rem;
+  border-radius: 7px;
+  font-size: 1rem;
+  margin-left: 8px;
+  bottom: 90px;
+  transition: 0.8s ease-in-out;
+  display: none;
+}
+
+.error.visible {
+  display: block;
+}
+
+
+/* -------------------------------
+      EFECTOS DEL SWITCHER 
+----------------------------------*/
+
+.modo {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  /* transition: 0.3s ease-in-out; */
+}
+
+.modo i {
+  font-size: 1.5rem;
+}
+
+.modo i:nth-of-type(odd) {
+  color: white;
+}
+
+.switchs {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 60px;
+  height: 30px;
+  margin: 20px 20px;
+  border-radius: 20px;
+  box-shadow: 3px 3px 5px #999;
+  transition: 0.2s ease-in-out;
+}
+
+
+/* redondeo el sswitcher y le doy otros estilos */
+
+.switchs label {
+  background-color: #56B18E;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 25px;
+  position: absolute;
+  width: 25px;
+  transition: transform 0.3s ease-in-out;
+  margin-left: 3px;
+  align-items: center;
+}
+
+
+/* oculto el checkbox solo que se vea el label redondeado */
+
+input[type="checkbox"] {
+  visibility: hidden;
+}
+
+
+/*  cuando está cheked lo muevo 30px a la derecha y lo  */
+
+.switchs input[type="checkbox"]:checked+label {
+  background-color: #F4AA60;
+  transform: translateX(30px);
+}
+
+
+/* -------------------------------
+   FIN DE  EFECTOS DEL SWITCHER 
+----------------------------------*/
+
+@media(max-width:768px) {
+  .modo {
+      position: absolute;
+      top: 0;
+      text-align: center;
+  }
+}
